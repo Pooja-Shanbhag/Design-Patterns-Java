@@ -6,6 +6,7 @@ import org.reflections.Reflections;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -80,8 +81,8 @@ class HotDrinkMachine
   private List<Pair<String, IHotDrinkFactory>> namedFactories =
     new ArrayList<>();
 
-  public HotDrinkMachine() throws Exception
-  {
+  public HotDrinkMachine() throws NoSuchMethodException, ClassNotFoundException,
+          IllegalAccessException, InvocationTargetException, InstantiationException {
     // option 1: use an enum
     for (AvailableDrink drink : AvailableDrink.values())
     {
@@ -93,7 +94,7 @@ class HotDrinkMachine
 
     // option 2: find all implementors of IHotDrinkFactory
     Set<Class<? extends IHotDrinkFactory>> types =
-      new Reflections("factory") // ""
+      new Reflections("") // ""
       .getSubTypesOf(IHotDrinkFactory.class);
     for (Class<? extends IHotDrinkFactory> type : types)
     {
